@@ -1,4 +1,4 @@
-package best.lang.cryptorates
+package best.lang.cryptorates.crypto
 
 import android.support.annotation.LayoutRes
 import android.support.v7.widget.RecyclerView
@@ -6,10 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import best.lang.cryptorates.R
 import best.lang.cryptorates.entity.CryptoCurrency
-import best.lang.utils.bind
+import best.lang.cryptorates.utils.bind
 
-class CurrencyAdapter : RecyclerView.Adapter<CurrencyAdapter.CurrencyViewHolder>() {
+class CryptoAdapter : RecyclerView.Adapter<CryptoAdapter.CurrencyViewHolder>() {
     private val items = ArrayList<CryptoCurrency>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CurrencyViewHolder {

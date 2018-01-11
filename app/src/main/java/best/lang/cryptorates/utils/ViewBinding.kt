@@ -1,4 +1,4 @@
-package best.lang.utils
+package best.lang.cryptorates.utils
 
 import android.app.Activity
 import android.support.annotation.IdRes

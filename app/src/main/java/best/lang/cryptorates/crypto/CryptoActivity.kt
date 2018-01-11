@@ -1,23 +1,27 @@
-package best.lang.cryptorates
+package best.lang.cryptorates.crypto
 
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import best.lang.cryptorates.entity.CryptoCurrency
-import best.lang.utils.bind
+import best.lang.cryptorates.R
+import best.lang.cryptorates.utils.bind
 
-class MainActivity : AppCompatActivity() {
+
+
+class CryptoActivity : AppCompatActivity() {
     private val currencyRecyclerView: RecyclerView by bind(R.id.currency_recycler_view)
 
-    private lateinit var currencyAdapter : CurrencyAdapter
+    private lateinit var cryptoAdapter: CryptoAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        currencyAdapter = CurrencyAdapter()
+        cryptoAdapter = CryptoAdapter()
 
         currencyRecyclerView.layoutManager = LinearLayoutManager(this)
 
@@ -25,11 +29,16 @@ class MainActivity : AppCompatActivity() {
                 DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
         )
 
-        currencyRecyclerView.adapter = currencyAdapter
+        currencyRecyclerView.adapter = cryptoAdapter
 
-        currencyAdapter.setItems(arrayListOf(
-                CryptoCurrency("bitcoin", "13000"),
-                CryptoCurrency("ephireum", "800")
-        ))
+        val model = ViewModelProviders.of(this).get(CryptoVM::class.java)
+
+        model.cryptoRatesLiveData.observe(this, Observer { cryptoRates ->
+
+            cryptoRates?.let {
+                cryptoAdapter.setItems(cryptoRates)
+            }
+
+        })
     }
 }
