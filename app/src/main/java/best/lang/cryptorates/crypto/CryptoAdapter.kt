@@ -44,6 +44,7 @@ class CryptoAdapter : RecyclerView.Adapter<CryptoAdapter.CurrencyViewHolder>() {
         if(!items.isEmpty()) items.clear()
 
         items.addAll(newItems)
+        notifyDataSetChanged()
     }
 
 }

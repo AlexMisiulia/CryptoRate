@@ -1,5 +1,6 @@
 package best.lang.cryptorates.network
 
+import android.util.Log
 import best.lang.cryptorates.entity.CryptoCurrency
 import org.json.JSONException
 import java.io.BufferedReader

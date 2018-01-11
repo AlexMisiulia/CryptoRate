@@ -1,8 +1,14 @@
+@file:Suppress("EXPERIMENTAL_FEATURE_WARNING")
+
 package best.lang.cryptorates.crypto
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import best.lang.cryptorates.entity.CryptoCurrency
+import kotlinx.coroutines.experimental.CommonPool
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.launch
 import javax.inject.Inject
 
 
@@ -14,6 +20,14 @@ class CryptoVM @Inject constructor(private val repository: CryptoRepository) : V
     }
 
     private fun loadUsers() {
-        cryptoRatesLiveData.value = repository.readCryptoRates()
+        launch(UI) {
+            try {
+                val cryptoRates = async(CommonPool) {repository.readCryptoRates()}.await()
+
+                cryptoRatesLiveData.value = cryptoRates
+            } catch(e: Exception) {
+                throw RuntimeException(e)
+            }
+        }
     }
 }
