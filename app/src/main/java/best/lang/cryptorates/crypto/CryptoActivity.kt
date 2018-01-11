@@ -7,9 +7,10 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import best.lang.cryptorates.CryptoApp
 import best.lang.cryptorates.R
 import best.lang.cryptorates.utils.bind
-
+import javax.inject.Inject
 
 
 class CryptoActivity : AppCompatActivity() {
@@ -17,9 +18,13 @@ class CryptoActivity : AppCompatActivity() {
 
     private lateinit var cryptoAdapter: CryptoAdapter
 
+    @Inject lateinit var viewModelFactory: CryptoVmFactory
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        CryptoApp.graph.inject(this)
 
         cryptoAdapter = CryptoAdapter()
 
@@ -31,7 +36,8 @@ class CryptoActivity : AppCompatActivity() {
 
         currencyRecyclerView.adapter = cryptoAdapter
 
-        val model = ViewModelProviders.of(this).get(CryptoVM::class.java)
+
+        val model = ViewModelProviders.of(this, viewModelFactory).get(CryptoVM::class.java)
 
         model.cryptoRatesLiveData.observe(this, Observer { cryptoRates ->
 

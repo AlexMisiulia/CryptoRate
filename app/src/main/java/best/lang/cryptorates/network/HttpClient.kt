@@ -8,8 +8,9 @@ import java.io.InputStream
 import java.io.InputStreamReader
 import java.net.HttpURLConnection
 import java.net.URL
+import javax.inject.Inject
 
-class HttpClient(private val jsonParser: JsonParser) {
+class HttpClient @Inject constructor(private val jsonParser: JsonParser) {
 
     @Throws(IOException::class, JSONException::class)
     fun readCryptoRates(): Collection<CryptoCurrency> {
