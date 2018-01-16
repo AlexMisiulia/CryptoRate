@@ -1,6 +1,5 @@
 package best.lang.cryptorates.network
 
-import android.util.Log
 import best.lang.cryptorates.entity.CryptoCurrency
 import org.json.JSONException
 import java.io.BufferedReader
@@ -27,15 +26,15 @@ class HttpClient @Inject constructor(private val jsonParser: JsonParser) {
 
         connection.connect()
 
-        val `in`: InputStream
         val status = connection.responseCode
-        if (status != HttpURLConnection.HTTP_OK) {
-            `in` = connection.errorStream
+
+        val inputStream: InputStream = if (status != HttpURLConnection.HTTP_OK) {
+            connection.errorStream
         } else {
-            `in` = connection.inputStream
+            connection.inputStream
         }
 
-        return convertStreamToString(`in`)
+        return convertStreamToString(inputStream)
     }
 
     @Throws(IOException::class)
