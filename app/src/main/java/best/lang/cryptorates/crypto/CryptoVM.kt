@@ -5,14 +5,14 @@ package best.lang.cryptorates.crypto
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import best.lang.cryptorates.entity.CryptoCurrency
-import kotlinx.coroutines.experimental.CommonPool
-import kotlinx.coroutines.experimental.android.UI
+import best.lang.cryptorates.utils.CoroutineContextProvider
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.launch
 import javax.inject.Inject
 
 
-class CryptoVM @Inject constructor(private val repository: CryptoRepository) : ViewModel() {
+class CryptoVM @Inject constructor(private val repository: CryptoRepository,
+                                   private val contextProvider: CoroutineContextProvider) : ViewModel() {
     val cryptoRatesLiveData = MutableLiveData<Collection<CryptoCurrency>>()
 
     init {
@@ -20,11 +20,11 @@ class CryptoVM @Inject constructor(private val repository: CryptoRepository) : V
     }
 
     private fun loadUsers() {
-        launch(UI) {
+        launch(contextProvider.getUI()) {
             try {
-                val cryptoRates = async(CommonPool) {repository.readCryptoRates()}.await()
-
-                cryptoRatesLiveData.value = cryptoRates
+                cryptoRatesLiveData.value = async(contextProvider.getIO()) {
+                    repository.readCryptoRates()
+                }.await()
             } catch(e: Exception) {
                 throw RuntimeException(e)
             }
