@@ -10,7 +10,7 @@ android {
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "best.lang.cryptorates.runner.CustomRunner"
     }
     buildTypes {
         release {
@@ -28,14 +28,16 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+
     // mockito
     testImplementation "org.mockito:mockito-core:2.12.0"
 
     // live data testing
     testImplementation 'android.arch.core:core-testing:1.0.0'
+    androidTestImplementation 'android.arch.core:core-testing:1.0.0'
 
     implementation "com.android.support:recyclerview-v7:26.1.0"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation Libs.kotlin_stdlib
 
     // ViewModel and LiveData
     implementation "android.arch.lifecycle:extensions:1.0.0"
@@ -48,14 +50,26 @@ dependencies {
     implementation 'com.google.dagger:dagger:2.12'
     kapt 'com.google.dagger:dagger-compiler:2.12'
 
+
     // coroutines
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.21'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.21.2'
     implementation "org.jetbrains.anko:anko-coroutines:0.10.4"
+
+    // functional tests dependencies
+    androidTestCompile 'com.linkedin.dexmaker:dexmaker-mockito:2.2.0'
+    androidTestImplementation "org.mockito:mockito-core:2.12.0"
+    kaptAndroidTest "com.google.dagger:dagger-compiler:2.12"
 }
 
 kotlin {
     experimental {
         coroutines "enable"
+    }
+}
+
+android {
+    packagingOptions {
+        exclude 'LICENSE.txt'
     }
 }
 

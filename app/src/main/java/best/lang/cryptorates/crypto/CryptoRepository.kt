@@ -5,5 +5,6 @@ import javax.inject.Inject
 
 open class CryptoRepository @Inject constructor(private val httpClient: HttpClient) {
 
-    suspend open fun readCryptoRates()  = httpClient.readCryptoRates()
+    open suspend fun readCryptoRates()  = httpClient.readCryptoRates()
+
 }

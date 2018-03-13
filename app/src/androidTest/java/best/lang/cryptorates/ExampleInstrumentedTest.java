@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("kotlin.lang.cryptorates", appContext.getPackageName());
+        assertEquals("best.lang.cryptorates", appContext.getPackageName());
     }
 }
