@@ -22,43 +22,38 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.android.support:appcompat-v7:26.1.0'
-    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation Libs.support_appcompat_v7
+    implementation Libs.recycler_view
+    implementation Libs.constraint_layout
 
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.1'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
 
-    // mockito
-    testImplementation "org.mockito:mockito-core:2.12.0"
-
-    // live data testing
-    testImplementation 'android.arch.core:core-testing:1.0.0'
-    androidTestImplementation 'android.arch.core:core-testing:1.0.0'
-
-    implementation "com.android.support:recyclerview-v7:26.1.0"
     implementation Libs.kotlin_stdlib
+    implementation Libs.gson
 
     // ViewModel and LiveData
-    implementation "android.arch.lifecycle:extensions:1.0.0"
-    annotationProcessor "android.arch.lifecycle:compiler:1.0.0"
+    implementation Libs.arch_lifecycle
+    annotationProcessor Libs.arch_compiler
 
-    // gson
-    implementation 'com.google.code.gson:gson:2.8.2'
-
-    // dagger
-    implementation 'com.google.dagger:dagger:2.12'
-    kapt 'com.google.dagger:dagger-compiler:2.12'
-
+    // di
+    implementation Libs.dagger
+    kapt Libs.dagger_compiler
 
     // coroutines
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.21.2'
-    implementation "org.jetbrains.anko:anko-coroutines:0.10.4"
+    implementation Libs.kotlinx_coroutines
+    implementation Libs.anko_coroutines
 
-    // functional tests dependencies
-    androidTestCompile 'com.linkedin.dexmaker:dexmaker-mockito:2.2.0'
-    androidTestImplementation "org.mockito:mockito-core:2.12.0"
-    kaptAndroidTest "com.google.dagger:dagger-compiler:2.12"
+
+    // unit tests
+    testImplementation Libs.junit
+    testImplementation Libs.mockito_core
+    testImplementation Libs.arch_testing
+
+    // functional tests
+    androidTestImplementation Libs.arch_testing
+    androidTestImplementation Libs.mockito_android
+    androidTestImplementation Libs.test_runner
+    androidTestImplementation Libs.espresso_core
+    kaptAndroidTest Libs.dagger_compiler
 }
 
 kotlin {
