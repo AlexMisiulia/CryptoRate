@@ -28,7 +28,9 @@ dependencies {
 
 
     implementation Libs.kotlin_stdlib
-    implementation Libs.gson
+    implementation Libs.retrofit
+    implementation Libs.retrofit_gson_adapter
+    implementation Libs.retrofit_sync_adapter
 
     // ViewModel and LiveData
     implementation Libs.arch_lifecycle

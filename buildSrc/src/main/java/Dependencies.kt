@@ -4,8 +4,8 @@ object Versions {
     const val dagger = "2.12"
     const val mockito_core = "2.15.0"
     const val android_arch = "1.0.0"
-    const val gson = "2.8.2"
     const val support = "26.1.0"
+    const val retrofit = "2.3.0"
 }
 
 object Libs {
@@ -17,9 +17,12 @@ object Libs {
     const val arch_testing = "android.arch.core:core-testing:${Versions.android_arch}"
     const val arch_lifecycle = "android.arch.lifecycle:extensions:${Versions.android_arch}"
     const val arch_compiler = "android.arch.lifecycle:compiler:${Versions.android_arch}"
-    const val gson = "com.google.code.gson:gson:${Versions.gson}"
     const val kotlinx_coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:0.21.2"
     const val anko_coroutines = "org.jetbrains.anko:anko-coroutines:0.10.4"
+    const val retrofit = "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
+    const val retrofit_gson_adapter = "com.squareup.retrofit2:converter-gson:${Versions.retrofit}"
+    const val retrofit_sync_adapter = "com.jaredsburrows.retrofit:retrofit2-synchronous-adapter:0.4.0"
+
 
     const val support_appcompat_v7 = "com.android.support:appcompat-v7:${Versions.support}"
     const val recycler_view = "com.android.support:recyclerview-v7:${Versions.support}"
