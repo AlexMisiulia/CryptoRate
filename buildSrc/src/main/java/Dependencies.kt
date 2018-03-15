@@ -6,6 +6,7 @@ object Versions {
     const val android_arch = "1.0.0"
     const val support = "26.1.0"
     const val retrofit = "2.3.0"
+    const val espresso = "3.0.1"
 }
 
 object Libs {
@@ -30,7 +31,9 @@ object Libs {
 
     const val junit = "junit:junit:4.12"
     const val test_runner = "com.android.support.test:runner:1.0.1"
-    const val espresso_core = "com.android.support.test.espresso:espresso-core:3.0.1"
+    const val espresso_core = "com.android.support.test.espresso:espresso-core:${Versions.espresso}"
+    const val espresso_idling_res = "com.android.support.test.espresso:espresso-idling-resource:${Versions.espresso}"
+    const val espresso_contrib = "com.android.support.test.espresso:espresso-contrib:${Versions.espresso}"
 }
 
 object Plugins {
