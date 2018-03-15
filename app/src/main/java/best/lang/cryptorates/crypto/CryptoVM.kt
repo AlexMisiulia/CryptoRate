@@ -5,8 +5,8 @@ import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import best.lang.cryptorates.entity.CryptoCurrency
 import best.lang.cryptorates.utils.CoroutineContextProvider
+import best.lang.cryptorates.utils.CoroutinesActions.Companion.withContext
 import kotlinx.coroutines.experimental.launch
-import kotlinx.coroutines.experimental.withContext
 import javax.inject.Inject
 
 
