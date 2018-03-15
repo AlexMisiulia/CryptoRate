@@ -1,24 +1,25 @@
 package best.lang.cryptorates.di
 
 import android.util.Log
-import best.lang.cryptorates.crypto.CryptoRepository
+import best.lang.cryptorates.network.WebService
 import dagger.Component
 import dagger.Module
 import dagger.Provides
-import org.mockito.Mockito
+import org.mockito.Mockito.mock
 import javax.inject.Singleton
 
 @Singleton
 @Component(modules = [TestModule::class, AppModule::class])
-interface TestComponent : AppComponent
+interface TestComponent : AppComponent {
+    fun mockWebService(): WebService
+}
 
 @Module
 class TestModule {
 
+    @Singleton
     @Provides
-    fun providesCryptoReposityory(): CryptoRepository {
-        val cryptoRepository = Mockito.mock(CryptoRepository::class.java)
-        Log.d("FuncTest","create mock with hash ${cryptoRepository.hashCode()}")
-        return cryptoRepository
+    fun providesMockWebServer(): WebService {
+        return mock(WebService::class.java)
     }
 }
