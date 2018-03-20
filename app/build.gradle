@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
+apply from: "$rootProject.projectDir/code_coverage.gradle"
 
 android {
     compileSdkVersion 26
@@ -69,10 +70,3 @@ kotlin {
         coroutines "enable"
     }
 }
-
-android {
-    packagingOptions {
-        exclude 'LICENSE.txt'
-    }
-}
-
