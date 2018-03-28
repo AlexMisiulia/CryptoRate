@@ -32,6 +32,7 @@ object Libs {
     const val support_appcompat_v7 = "com.android.support:appcompat-v7:${Versions.support}"
     const val recycler_view = "com.android.support:recyclerview-v7:${Versions.support}"
     const val constraint_layout = "com.android.support.constraint:constraint-layout:1.0.2"
+    const val android_ktx_core = "androidx.core:core-ktx:0.2"
 
     const val junit = "junit:junit:4.12"
     const val spek_engine = "org.jetbrains.spek:spek-junit-platform-engine:${Versions.spek}"

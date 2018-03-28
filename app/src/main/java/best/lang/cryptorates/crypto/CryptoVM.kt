@@ -9,29 +9,43 @@ import best.lang.cryptorates.utils.CoroutineContextProvider
 import best.lang.cryptorates.utils.CoroutinesActions.Companion.withContext
 import kotlinx.coroutines.experimental.launch
 import javax.inject.Inject
-import kotlin.coroutines.experimental.CoroutineContext
 
 open class CryptoVM @Inject constructor(private val repository: CryptoRepository,
                                         private val contextProvider: CoroutineContextProvider) : ViewModel() {
     private val cryptoRatesLiveData = MutableLiveData<Collection<CryptoCurrency>>()
     private val loadingLiveData = MutableLiveData<Boolean>()
+    private val swipeRefreshLiveData = MutableLiveData<Boolean>()
     private val errorLiveData = MutableLiveData<Int>()
 
     /*methods for observing immutable live data*/
     fun cryptoRatesData() : LiveData<Collection<CryptoCurrency>> = cryptoRatesLiveData
     fun loadingData() : LiveData<Boolean> = loadingLiveData
+    fun swipeRefreshData() : LiveData<Boolean> = swipeRefreshLiveData
     fun errorData() : LiveData<Int> = errorLiveData
 
     init {
-        loadUsers()
+        loadUsers(isSwipeRefresh = false)
     }
 
-    fun loadUsers(offset: Int = 0) {
+    fun loadUsers(offset: Int = 0, isSwipeRefresh: Boolean) {
         launchUI {
 
-            val cryptoCurrencies = doAsync { repository.readCryptoRates(offset) }
+            showLoading(isSwipeRefresh, isLoading = true)
+
+            val cryptoCurrencies = withContext(contextProvider.getIO()) { repository.readCryptoRates(offset) }
             val totalCrypto = cryptoRatesLiveData.value?.plus(cryptoCurrencies) ?: cryptoCurrencies
             cryptoRatesLiveData.value = totalCrypto
+
+            showLoading(isSwipeRefresh, isLoading = false)
+
+        }
+    }
+
+    fun showLoading(isSwipeRefresh: Boolean, isLoading: Boolean) {
+        if(isSwipeRefresh) {
+            swipeRefreshLiveData.value = isLoading
+        } else {
+            loadingLiveData.value = isLoading
         }
     }
 
@@ -49,17 +63,8 @@ open class CryptoVM @Inject constructor(private val repository: CryptoRepository
         }
     }
 
-    private suspend fun <T> doAsync(context: CoroutineContext = contextProvider.getIO(), task: suspend () -> T) : T {
-        loadingLiveData.value = true
-
-        val result = withContext(context) {     task()  }
-
-        loadingLiveData.value = false
-
-        return result
-    }
-
     fun onErrorShown() {
         errorLiveData.value = null
     }
+
 }

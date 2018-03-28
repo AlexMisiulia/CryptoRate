@@ -2,4 +2,6 @@
     <string name="app_name">CryptoRates</string>
     <string name="error_msg">Oops, error occurred :(</string>
     <string name="currency_image">Currency image</string>
+    <string name="retry">retry</string>
+    <string name="update_error_msg">error</string>
 </resources>

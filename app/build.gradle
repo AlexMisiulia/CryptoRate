@@ -27,6 +27,7 @@ dependencies {
     implementation Libs.recycler_view
     implementation Libs.constraint_layout
     implementation Libs.picasso
+//    implementation Libs.android_ktx_core
 
     implementation Libs.kotlin_stdlib
     implementation Libs.retrofit

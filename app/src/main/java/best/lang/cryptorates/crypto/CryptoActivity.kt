@@ -9,7 +9,6 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.widget.Toast
 import best.lang.cryptorates.CryptoApp
 import best.lang.cryptorates.R
 import best.lang.cryptorates.utils.EndlessRecyclerViewScrollListener
@@ -48,15 +47,17 @@ class CryptoActivity : AppCompatActivity() {
         }
 
         viewModel.loadingData().safeObserve {
+            cryptoAdapter.showError(false)
+            cryptoAdapter.showUpdating(it)
+        }
 
+        viewModel.swipeRefreshData().safeObserve {
             if(swipeRefreshLayout.isRefreshing != it) swipeRefreshLayout.isRefreshing = it
-
         }
 
         viewModel.errorData().safeObserve {
 
-            Toast.makeText(this@CryptoActivity, it, Toast.LENGTH_SHORT).show()
-            viewModel.onErrorShown()
+            cryptoAdapter.showError(true)
         }
     }
 
@@ -80,12 +81,12 @@ class CryptoActivity : AppCompatActivity() {
 
         currencyRecyclerView.addOnScrollListener(object: EndlessRecyclerViewScrollListener(layoutManager) {
             override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?) {
-                viewModel.loadUsers(totalItemsCount)
+                viewModel.loadUsers(totalItemsCount, isSwipeRefresh = false)
             }
         })
 
         swipeRefreshLayout.setOnRefreshListener {
-            viewModel.loadUsers()
+            viewModel.loadUsers(isSwipeRefresh = true)
         }
     }
 }
