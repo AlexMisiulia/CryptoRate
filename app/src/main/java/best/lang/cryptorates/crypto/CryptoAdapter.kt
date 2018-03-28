@@ -5,10 +5,12 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import best.lang.cryptorates.R
 import best.lang.cryptorates.entity.CryptoCurrency
 import best.lang.cryptorates.utils.bind
+import com.squareup.picasso.Picasso
 
 class CryptoAdapter : RecyclerView.Adapter<CryptoAdapter.CurrencyViewHolder>() {
     private val items = ArrayList<CryptoCurrency>()
@@ -29,13 +31,15 @@ class CryptoAdapter : RecyclerView.Adapter<CryptoAdapter.CurrencyViewHolder>() {
     override fun getItemCount() = items.size
 
 
-    class CurrencyViewHolder(val v: View) : RecyclerView.ViewHolder(v) {
+    class CurrencyViewHolder(v: View) : RecyclerView.ViewHolder(v) {
         private val nameTextView: TextView      by bind(R.id.name_text_view)
         private val valueTextView: TextView     by bind(R.id.value_text_view)
+        private val imageView: ImageView        by bind(R.id.currency_image_view)
 
         fun setContent(item: CryptoCurrency) {
             nameTextView.text = item.name
-            valueTextView.text = item.value
+            valueTextView.text = item.priceUsd
+            Picasso.get().load(item.getImageUrl()).into(imageView)
         }
 
     }

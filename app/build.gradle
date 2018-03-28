@@ -26,7 +26,7 @@ dependencies {
     implementation Libs.support_appcompat_v7
     implementation Libs.recycler_view
     implementation Libs.constraint_layout
-
+    implementation Libs.picasso
 
     implementation Libs.kotlin_stdlib
     implementation Libs.retrofit

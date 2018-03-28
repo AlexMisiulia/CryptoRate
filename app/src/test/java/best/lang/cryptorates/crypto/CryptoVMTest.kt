@@ -7,8 +7,8 @@ import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mock
-import org.mockito.Mockito.`when`
 import org.mockito.MockitoAnnotations
+import org.mockito.Mockito.`when` as whenever
 
 
 class CryptoVMTest : BaseUnitTest() {
@@ -25,13 +25,13 @@ class CryptoVMTest : BaseUnitTest() {
 
     @Test
     fun getCryptoRatesLiveData() = runBlocking {
-        val expectedResult = listOf(CryptoCurrency("bitcoin", "13000"))
+        val expectedResult = listOf(CryptoCurrency("bitcoin", "Bitcoin", "BTC", "1200"))
 
-        `when`(cryptoRepo.readCryptoRates()).thenReturn(expectedResult)
+        whenever(cryptoRepo.readCryptoRates()).thenReturn(expectedResult)
         cryptoViewModel = CryptoVM(cryptoRepo, testContext)
 
         // act
-        val result = cryptoViewModel.cryptoRatesLiveData.observeValue()
+        val result = cryptoViewModel.cryptoRatesData().observeValue()
 
         Assert.assertEquals(expectedResult, result)
     }
