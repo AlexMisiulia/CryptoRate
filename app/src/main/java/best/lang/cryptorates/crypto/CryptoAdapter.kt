@@ -1,6 +1,7 @@
 package best.lang.cryptorates.crypto
 
 import android.support.annotation.LayoutRes
+import android.support.v7.util.DiffUtil
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +13,8 @@ import best.lang.cryptorates.entity.CryptoCurrency
 import best.lang.cryptorates.utils.bind
 import com.squareup.picasso.Picasso
 
+
+
 class CryptoAdapter : RecyclerView.Adapter<CryptoAdapter.CurrencyViewHolder>() {
     private val items = ArrayList<CryptoCurrency>()
 
@@ -20,7 +23,7 @@ class CryptoAdapter : RecyclerView.Adapter<CryptoAdapter.CurrencyViewHolder>() {
         return CurrencyViewHolder(view)
     }
 
-    private fun inflate(parent: ViewGroup, @LayoutRes res: Int) : View {
+    private fun inflate(parent: ViewGroup, @LayoutRes res: Int): View {
         return LayoutInflater.from(parent.context).inflate(res, parent, false)
     }
 
@@ -45,10 +48,32 @@ class CryptoAdapter : RecyclerView.Adapter<CryptoAdapter.CurrencyViewHolder>() {
     }
 
     fun setItems(newItems: Collection<CryptoCurrency>) {
-        if(!items.isEmpty()) items.clear()
 
+        val diffResult = DiffUtil.calculateDiff(CryptoDiffUtilsCallback(newItems.toList(), items))
+        diffResult.dispatchUpdatesTo(this)
+
+        if(items.isNotEmpty()) items.clear()
         items.addAll(newItems)
-        notifyDataSetChanged()
+    }
+
+    class CryptoDiffUtilsCallback(private val newCurrencies: List<CryptoCurrency>,
+                                  private val oldCurrencies: List<CryptoCurrency>)
+        : DiffUtil.Callback() {
+
+        override fun getOldListSize() = oldCurrencies.size
+
+
+        override fun getNewListSize() = newCurrencies.size
+
+        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+            return newCurrencies[newItemPosition] == oldCurrencies[oldItemPosition]
+        }
+
+
+        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+            return newCurrencies[newItemPosition] === oldCurrencies[oldItemPosition]
+        }
+
     }
 
 }
