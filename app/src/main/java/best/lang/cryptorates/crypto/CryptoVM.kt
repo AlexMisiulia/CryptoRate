@@ -26,11 +26,12 @@ open class CryptoVM @Inject constructor(private val repository: CryptoRepository
         loadUsers()
     }
 
-    fun loadUsers() {
+    fun loadUsers(offset: Int = 0) {
         launchUI {
 
-            cryptoRatesLiveData.value = doAsync { repository.readCryptoRates() }
-
+            val cryptoCurrencies = doAsync { repository.readCryptoRates(offset) }
+            val totalCrypto = cryptoRatesLiveData.value?.plus(cryptoCurrencies) ?: cryptoCurrencies
+            cryptoRatesLiveData.value = totalCrypto
         }
     }
 

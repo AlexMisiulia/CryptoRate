@@ -5,6 +5,6 @@ import javax.inject.Inject
 
 open class CryptoRepository @Inject constructor(private val webService: WebService) {
 
-    open suspend fun readCryptoRates()  = webService.readCurrencies(50)
+    open suspend fun readCryptoRates(offset: Int, limit: Int = 50)  = webService.readCurrencies(offset, limit)
 
 }

@@ -7,5 +7,6 @@ import retrofit2.http.Query
 
 interface WebService {
     @GET("ticker/")
-    fun readCurrencies(@Query("limit") limit: Int): List<CryptoCurrency>
+    fun readCurrencies(@Query("start") offset: Int,
+                       @Query("limit") limit: Int): List<CryptoCurrency>
 }

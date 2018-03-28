@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView
 import android.widget.Toast
 import best.lang.cryptorates.CryptoApp
 import best.lang.cryptorates.R
+import best.lang.cryptorates.utils.EndlessRecyclerViewScrollListener
 import best.lang.cryptorates.utils.bind
 import javax.inject.Inject
 
@@ -70,11 +71,18 @@ class CryptoActivity : AppCompatActivity() {
 
     private fun initView() {
         cryptoAdapter = CryptoAdapter()
-        currencyRecyclerView.layoutManager = LinearLayoutManager(this)
+        val layoutManager = LinearLayoutManager(this)
+        currencyRecyclerView.layoutManager = layoutManager
         currencyRecyclerView.addItemDecoration(
                 DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
         )
         currencyRecyclerView.adapter = cryptoAdapter
+
+        currencyRecyclerView.addOnScrollListener(object: EndlessRecyclerViewScrollListener(layoutManager) {
+            override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?) {
+                viewModel.loadUsers(totalItemsCount)
+            }
+        })
 
         swipeRefreshLayout.setOnRefreshListener {
             viewModel.loadUsers()
