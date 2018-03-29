@@ -3,22 +3,24 @@ package best.lang.cryptorates.crypto
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Context
 import android.os.Bundle
-import android.support.v4.widget.SwipeRefreshLayout
-import android.support.v7.app.AppCompatActivity
+import android.support.v4.app.Fragment
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import best.lang.cryptorates.CryptoApp
+import best.lang.cryptorates.OnCryptoClick
 import best.lang.cryptorates.R
 import best.lang.cryptorates.utils.EndlessRecyclerViewScrollListener
-import best.lang.cryptorates.utils.bind
+import kotlinx.android.synthetic.main.activity_crypto.*
 import javax.inject.Inject
 
 
-class CryptoActivity : AppCompatActivity() {
-    private val currencyRecyclerView: RecyclerView by bind(R.id.currency_recycler_view)
-    private val swipeRefreshLayout: SwipeRefreshLayout by bind(R.id.swipe_refresh_layout)
+class CryptoFragment : Fragment() {
 
     private lateinit var viewModel : CryptoVM
 
@@ -26,17 +28,29 @@ class CryptoActivity : AppCompatActivity() {
 
     @Inject lateinit var viewModelFactory: CryptoVmFactory
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+    private lateinit var onCryptoClick: OnCryptoClick
 
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        try {
+            onCryptoClick = (context as OnCryptoClick)
+        } catch (e: ClassCastException) {
+            throw ClassCastException(context.toString() + " must implement OnCryptoClick")
+        }
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.activity_crypto, container, false)
+    }
+
+    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         CryptoApp.graph.inject(this)
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(CryptoVM::class.java)
 
         initView()
 
         observeViewModel()
-
     }
 
     private fun observeViewModel() {
@@ -57,7 +71,7 @@ class CryptoActivity : AppCompatActivity() {
 
 
     private fun <T> LiveData<T>.safeObserve(observeBlock: (T) -> Unit) {
-        observe(this@CryptoActivity, Observer {
+        observe(this@CryptoFragment, Observer {
             it?.let {
                 observeBlock(it)
             }
@@ -65,11 +79,11 @@ class CryptoActivity : AppCompatActivity() {
     }
 
     private fun initView() {
-        cryptoAdapter = CryptoAdapter()
-        val layoutManager = LinearLayoutManager(this)
+        cryptoAdapter = CryptoAdapter(onCryptoClick)
+        val layoutManager = LinearLayoutManager(activity)
         currencyRecyclerView.layoutManager = layoutManager
         currencyRecyclerView.addItemDecoration(
-                DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
+                DividerItemDecoration(activity, DividerItemDecoration.VERTICAL)
         )
         currencyRecyclerView.adapter = cryptoAdapter
 

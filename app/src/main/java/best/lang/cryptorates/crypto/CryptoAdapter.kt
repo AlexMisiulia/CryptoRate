@@ -4,18 +4,19 @@ import android.support.v7.util.DiffUtil
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
+import best.lang.cryptorates.OnCryptoClick
 import best.lang.cryptorates.R
 import best.lang.cryptorates.entity.CryptoCurrency
 import best.lang.cryptorates.utils.EndlessAdapter
-import best.lang.cryptorates.utils.bind
 import best.lang.cryptorates.utils.inflate
 import com.squareup.picasso.Picasso
+import kotlinx.android.extensions.LayoutContainer
+import kotlinx.android.synthetic.main.currency_item_view.*
 
 
 
-class CryptoAdapter : EndlessAdapter<CryptoCurrency, CryptoAdapter.CurrencyViewHolder>() {
+class CryptoAdapter(private val onCryptoClick: OnCryptoClick) : EndlessAdapter<CryptoCurrency, CryptoAdapter.CurrencyViewHolder>() {
+
 
     override fun onCreateItemViewHolder(parent: ViewGroup, viewType: Int): CurrencyViewHolder {
         val view = parent.inflate(R.layout.currency_item_view)
@@ -26,15 +27,19 @@ class CryptoAdapter : EndlessAdapter<CryptoCurrency, CryptoAdapter.CurrencyViewH
         holder.setContent(getItems()[position])
     }
 
-    class CurrencyViewHolder(v: View) : RecyclerView.ViewHolder(v) {
-        private val nameTextView: TextView      by bind(R.id.name_text_view)
-        private val valueTextView: TextView     by bind(R.id.value_text_view)
-        private val imageView: ImageView        by bind(R.id.currency_image_view)
+    inner class CurrencyViewHolder(override val containerView: View) :
+            RecyclerView.ViewHolder(containerView), LayoutContainer {
+
+        init {
+            containerView.setOnClickListener {
+                onCryptoClick.onClick(getItem(layoutPosition))
+            }
+        }
 
         fun setContent(item: CryptoCurrency) {
             nameTextView.text = item.name
             valueTextView.text = item.priceUsd
-            Picasso.get().load(item.getImageUrl()).into(imageView)
+            Picasso.get().load(item.getImageUrl()).into(currencyImageView)
         }
 
     }
@@ -48,7 +53,6 @@ class CryptoAdapter : EndlessAdapter<CryptoCurrency, CryptoAdapter.CurrencyViewH
 
         updateItems(newItems)
     }
-
 
     class CryptoDiffUtilsCallback(private val newCurrencies: List<CryptoCurrency>,
                                   private val oldCurrencies: List<CryptoCurrency?>)

@@ -6,7 +6,19 @@
 
     <FrameLayout
         android:id="@+id/masterFrameLayout"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
+        app:layout_constraintEnd_toStartOf="@id/detailsFrameLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_weight="1"
         android:layout_height="match_parent"/>
+
+    <FrameLayout
+        android:id="@+id/detailsFrameLayout"
+        android:layout_width="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/masterFrameLayout"
+        app:layout_constraintHorizontal_weight="1"
+        android:layout_height="match_parent"/>
+
 
 </android.support.constraint.ConstraintLayout>

@@ -31,7 +31,7 @@ object Libs {
     const val picasso = "com.squareup.picasso:picasso:${Versions.picasso}"
     const val support_appcompat_v7 = "com.android.support:appcompat-v7:${Versions.support}"
     const val recycler_view = "com.android.support:recyclerview-v7:${Versions.support}"
-    const val constraint_layout = "com.android.support.constraint:constraint-layout:1.0.2"
+    const val constraint_layout = "com.android.support.constraint:constraint-layout:1.1.0-beta5"
     const val android_ktx_core = "androidx.core:core-ktx:0.2"
 
     const val junit = "junit:junit:4.12"

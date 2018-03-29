@@ -9,7 +9,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <ImageView
-        android:id="@+id/currency_image_view"
+        android:id="@+id/currencyImageView"
         android:layout_width="50dp"
         android:layout_height="50dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -17,22 +17,22 @@
         android:contentDescription="@string/currency_image"/>
 
     <TextView
-        android:id="@+id/name_text_view"
+        android:id="@+id/nameTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        app:layout_constraintStart_toEndOf="@id/currency_image_view"
+        app:layout_constraintStart_toEndOf="@id/currencyImageView"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="bitcoin"
         />
 
     <TextView
-        android:id="@+id/value_text_view"
+        android:id="@+id/valueTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        app:layout_constraintStart_toEndOf="@id/name_text_view"
+        app:layout_constraintStart_toEndOf="@id/nameTextView"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="13000"

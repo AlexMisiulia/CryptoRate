@@ -19,10 +19,10 @@ import javax.inject.Inject
 import org.mockito.Mockito.`when` as whenever
 
 @RunWith(AndroidJUnit4::class)
-class CryptoActivityTest {
+class CryptoFragmentTest {
     @Rule
     @JvmField
-    val activityRule = ActivityTestRule<CryptoActivity>(CryptoActivity::class.java, true, false)
+    val activityRule = ActivityTestRule<CryptoFragment>(CryptoFragment::class.java, true, false)
 
     val idleRes = CountingIdlingResource("coroutines idle res")
 

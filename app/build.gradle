@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-android-extensions'
 apply from: "$rootProject.projectDir/code_coverage.gradle"
 
 android {
@@ -70,4 +71,8 @@ kotlin {
     experimental {
         coroutines "enable"
     }
+}
+
+androidExtensions {
+    experimental = true
 }
