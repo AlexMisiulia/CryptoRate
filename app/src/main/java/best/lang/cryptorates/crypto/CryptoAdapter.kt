@@ -42,7 +42,7 @@ class CryptoAdapter : EndlessAdapter<CryptoCurrency, CryptoAdapter.CurrencyViewH
     fun setItems(newItems: Collection<CryptoCurrency>) {
 
         val diffResult = DiffUtil.calculateDiff(
-                CryptoDiffUtilsCallback(newItems.toList(), getItems())
+                CryptoDiffUtilsCallback(newItems.toList(), getItemsNullable())
         )
         diffResult.dispatchUpdatesTo(this)
 

@@ -1,5 +1,6 @@
 package best.lang.cryptorates.utils
 
+import android.support.v7.widget.AppCompatButton
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
@@ -10,8 +11,16 @@ private const val ERROR_FOOTER_VIEW = R.layout.footer_error_item_view
 private const val LOADING_VIEW = R.layout.footer_loading_item_view
 
 abstract class EndlessAdapter<T: Any, VH : RecyclerView.ViewHolder> : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    private var isUpdating: Boolean = false
-    private var isError: Boolean = false
+    var isUpdating: Boolean = false
+        set(value) {
+            setFooterVisible(isVisible = value)
+            field = value
+        }
+
+    var isError: Boolean = false
+        private set
+
+    private var retryRunnable: Runnable? = null
 
     private val items = ArrayList<T?>()
 
@@ -21,7 +30,7 @@ abstract class EndlessAdapter<T: Any, VH : RecyclerView.ViewHolder> : RecyclerVi
             LOADING_VIEW -> LoadingHolder(parent.inflate(R.layout.footer_loading_item_view))
             ERROR_FOOTER_VIEW ->  {
 
-                ErrorHolder(parent.inflate(R.layout.footer_loading_item_view))
+                ErrorHolder(parent.inflate(R.layout.footer_error_item_view))
             }
             else -> onCreateItemViewHolder(parent, viewType)
         }
@@ -54,24 +63,18 @@ abstract class EndlessAdapter<T: Any, VH : RecyclerView.ViewHolder> : RecyclerVi
 
     override fun getItemCount() = items.size
 
+    fun showError(isError: Boolean, retryRunnable: Runnable? = null) {
+        this.retryRunnable = retryRunnable
 
-    fun showUpdating(isUpdating: Boolean) {
-
-        if (isUpdating) addFooter()
-        else            removeFooter()
-
-        this.isUpdating = isUpdating
-    }
-
-    fun showError(isError: Boolean) {
-
-        if (isError)    addFooter()
-        else            removeFooter()
+        setFooterVisible(isVisible = isError)
 
         this.isError = isError
     }
 
-
+    private fun setFooterVisible(isVisible: Boolean) {
+        if(isVisible) addFooter()
+        else          removeFooter()
+    }
 
     private fun addFooter() {
         if (!items.contains(null)) items.add(null) //add footer
@@ -110,8 +113,13 @@ abstract class EndlessAdapter<T: Any, VH : RecyclerView.ViewHolder> : RecyclerVi
 
     }
 
-    class ErrorHolder(v: View) : RecyclerView.ViewHolder(v) {
-
+    inner class ErrorHolder(v: View) : RecyclerView.ViewHolder(v) {
+        val retryButton: AppCompatButton by bind(R.id.retry_action_button)
+        init {
+            retryButton.setOnClickListener {
+                retryRunnable?.run()
+            }
+        }
     }
 
 }

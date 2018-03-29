@@ -5,6 +5,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.StaggeredGridLayoutManager
 
+@Suppress("ReplaceWithOperatorAssignment", "unused")
 abstract class EndlessRecyclerViewScrollListener : RecyclerView.OnScrollListener {
     // The minimum amount of items to have below your current scroll position
     // before loading more.
@@ -50,6 +51,10 @@ abstract class EndlessRecyclerViewScrollListener : RecyclerView.OnScrollListener
     // We are given a few useful parameters to help us work out if we need to load some more data,
     // but first we check if we are waiting for the previous load to finish.
     override fun onScrolled(view: RecyclerView?, dx: Int, dy: Int) {
+        // executes when adapter child range change(adapter.clear(), adapter.setItems())
+        // no need to handle this events
+        if (dx == 0 && dy == 0) return
+
         var lastVisibleItemPosition = 0
         val totalItemCount = mLayoutManager.itemCount
 

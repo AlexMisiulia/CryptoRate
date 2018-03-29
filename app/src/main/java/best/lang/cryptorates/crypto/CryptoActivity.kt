@@ -40,24 +40,18 @@ class CryptoActivity : AppCompatActivity() {
     }
 
     private fun observeViewModel() {
-        viewModel.cryptoRatesData().safeObserve {
+        viewModel.cryptoViewState().safeObserve {
 
-            cryptoAdapter.setItems(it)
+            if(cryptoAdapter.getItems().isEmpty() || cryptoAdapter.getItems() != it.items) {
+                cryptoAdapter.setItems(it.items)
+            }
 
-        }
+            cryptoAdapter.isUpdating = it.isRecyclerLoading
+            cryptoAdapter.showError(it.errorInfo != null, it.errorInfo?.retryRunnable)
 
-        viewModel.loadingData().safeObserve {
-            cryptoAdapter.showError(false)
-            cryptoAdapter.showUpdating(it)
-        }
 
-        viewModel.swipeRefreshData().safeObserve {
-            if(swipeRefreshLayout.isRefreshing != it) swipeRefreshLayout.isRefreshing = it
-        }
+            swipeRefreshLayout.isRefreshing = it.isSwipeRefresh
 
-        viewModel.errorData().safeObserve {
-
-            cryptoAdapter.showError(true)
         }
     }
 
@@ -81,7 +75,9 @@ class CryptoActivity : AppCompatActivity() {
 
         currencyRecyclerView.addOnScrollListener(object: EndlessRecyclerViewScrollListener(layoutManager) {
             override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?) {
-                viewModel.loadUsers(totalItemsCount, isSwipeRefresh = false)
+                if(!cryptoAdapter.isError) {
+                    viewModel.loadUsers(totalItemsCount, isSwipeRefresh = false)
+                }
             }
         })
 
